@@ -1,6 +1,6 @@
 // toglogchiin eeljig hadgalah huwisagch , 1r toglogchiig 0 , 2r toglogchiig 1 gej temdeglene //
 
-var activePlayer = 1;
+var activePlayer = 0;
 
 // toglogchdiin tsugluulsan onoog hadgalah huwisagch
 
@@ -25,9 +25,33 @@ document.getElementById("current-0").textContent = "0";
 document.getElementById("current-1").textContent = "0";
 document.querySelector(".dice").style.display = "none";
 
+//Shoog shidehed zurag oorchlogddog bolgow
+
 var diceDom = document.querySelector(".dice");
 document.querySelector(".btn-roll").addEventListener("click", function () {
+  //1-6 sanamsargui too gargaj awah
+
   var diceNumber = Math.floor(Math.random() * 6) + 1;
+
+  //shoonii zurgiig gargaj irle
+
   diceDom.style.display = "block";
+
+  //buusan sanamsargui toond hargalzah shoonii zurgiig web deer gargaj irne
+
   diceDom.src = "dice-" + diceNumber + ".png";
+
+  // Toglogchiin current onoog nemegduuldeg bolgono
+
+  if (diceNumber !== 1) {
+    roundScore = roundScore + diceNumber;
+    document.getElementById("current-" + activePlayer).textContent = roundScore;
+  } else {
+    roundScore = 0;
+    document.getElementById("current-" + activePlayer).textContent = roundScore;
+    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+    document.querySelector(".player-0-panel").classList.toggle("active");
+    document.querySelector(".player-1-panel").classList.toggle("active");
+    diceDom.style.display = "none";
+  }
 });
