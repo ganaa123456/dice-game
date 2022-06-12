@@ -1,33 +1,39 @@
 // toglogchiin eeljig hadgalah huwisagch , 1r toglogchiig 0 , 2r toglogchiig 1 gej temdeglene //
 
-var activePlayer = 0;
+var activePlayer;
 
 // toglogchdiin tsugluulsan onoog hadgalah huwisagch
 
-var scores = [0, 0];
+var scores;
 
 //toglogchiin eeljindee tsugluulj bga onoog hadgalah huwisagch
 
-var roundScore = 0;
+var roundScore;
 
 //shoonii ali talaaraa buusniig hadgalah huwisagch 1-6
 
 var diceNumber = Math.floor(Math.random() * 6) + 1;
 
-// window.document.querySelector("#score-0").textContent = dice;
-// document.querySelector("#score-1").textContent = dice;
-
-// Program ehlehed beltgeh
-
-document.getElementById("score-0").textContent = "0";
-document.getElementById("score-1").textContent = "0";
-document.getElementById("current-0").textContent = "0";
-document.getElementById("current-1").textContent = "0";
-document.querySelector(".dice").style.display = "none";
+var diceDom = document.querySelector(".dice");
+initGame();
+function initGame() {
+  activePlayer = 0;
+  scores = [0, 0];
+  roundScore = 0;
+  document.getElementById("score-0").textContent = "0";
+  document.getElementById("score-1").textContent = "0";
+  document.getElementById("current-0").textContent = "0";
+  document.getElementById("current-1").textContent = "0";
+  document.querySelector(".dice").style.display = "none";
+  document.getElementById("name-0").textContent = "Player 1";
+  document.getElementById("name-1").textContent = "Player 2";
+  document.querySelector(".player-0-panel").classList.remove("active");
+  document.querySelector(".player-1-panel").classList.remove("active");
+  document.querySelector(".player-0-panel").classList.add("active");
+}
 
 //Shoog shidehed zurag oorchlogddog bolgow
 
-var diceDom = document.querySelector(".dice");
 document.querySelector(".btn-roll").addEventListener("click", function () {
   //1-6 sanamsargui too gargaj awah
 
@@ -60,7 +66,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
     scores[activePlayer];
 
   roundScore = 0;
-  if (scores[activePlayer] >= 100) {
+  if (scores[activePlayer] >= 10) {
     document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
     document
       .querySelector(".player-" + activePlayer + "-panel")
@@ -80,3 +86,4 @@ function SwitchToNextPlayer() {
   document.querySelector(".player-1-panel").classList.toggle("active");
   diceDom.style.display = "none";
 }
+document.querySelector(".btn-new").addEventListener("click", initGame);
