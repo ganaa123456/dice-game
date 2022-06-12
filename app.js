@@ -1,5 +1,5 @@
 // toglogchiin eeljig hadgalah huwisagch , 1r toglogchiig 0 , 2r toglogchiig 1 gej temdeglene //
-
+var isNewGame;
 var activePlayer;
 
 // toglogchdiin tsugluulsan onoog hadgalah huwisagch
@@ -17,6 +17,7 @@ var diceNumber = Math.floor(Math.random() * 6) + 1;
 var diceDom = document.querySelector(".dice");
 initGame();
 function initGame() {
+  isNewGame = true;
   activePlayer = 0;
   scores = [0, 0];
   roundScore = 0;
@@ -36,46 +37,51 @@ function initGame() {
 
 document.querySelector(".btn-roll").addEventListener("click", function () {
   //1-6 sanamsargui too gargaj awah
+  if (isNewGame === true) {
+    var diceNumber = Math.floor(Math.random() * 6) + 1;
 
-  var diceNumber = Math.floor(Math.random() * 6) + 1;
+    //shoonii zurgiig gargaj irle
 
-  //shoonii zurgiig gargaj irle
+    diceDom.style.display = "block";
 
-  diceDom.style.display = "block";
+    //buusan sanamsargui toond hargalzah shoonii zurgiig web deer gargaj irne
 
-  //buusan sanamsargui toond hargalzah shoonii zurgiig web deer gargaj irne
+    diceDom.src = "dice-" + diceNumber + ".png";
 
-  diceDom.src = "dice-" + diceNumber + ".png";
+    // Toglogchiin current onoog nemegduuldeg bolgono
 
-  // Toglogchiin current onoog nemegduuldeg bolgono
-
-  if (diceNumber !== 1) {
-    roundScore = roundScore + diceNumber;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
-  } else {
-    SwitchToNextPlayer();
-    diceDom.style.display = "none";
+    if (diceNumber !== 1) {
+      roundScore = roundScore + diceNumber;
+      document.getElementById("current-" + activePlayer).textContent =
+        roundScore;
+    } else {
+      SwitchToNextPlayer();
+      diceDom.style.display = "none";
+    }
   }
 });
 
 // hold button tohiruulah
 
 document.querySelector(".btn-hold").addEventListener("click", function () {
-  scores[activePlayer] = scores[activePlayer] + roundScore;
-  document.getElementById("score-" + activePlayer).textContent =
-    scores[activePlayer];
+  if (isNewGame) {
+    scores[activePlayer] = scores[activePlayer] + roundScore;
+    document.getElementById("score-" + activePlayer).textContent =
+      scores[activePlayer];
 
-  roundScore = 0;
-  if (scores[activePlayer] >= 10) {
-    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
-  } else {
-    SwitchToNextPlayer();
+    roundScore = 0;
+    if (scores[activePlayer] >= 10) {
+      isNewGame = false;
+      document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+    } else {
+      SwitchToNextPlayer();
+    }
   }
 });
 function SwitchToNextPlayer() {
